@@ -1,0 +1,31 @@
+[project]
+name = "furniture-shop-backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "sqlalchemy",
+    "alembic",
+    "psycopg2-binary",
+    "slowapi",
+    "python-dotenv",
+    "pyjwt",
+    "passlib[bcrypt]",
+    "bcrypt==4.0.1",
+    "python-multipart",
+    "email-validator"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "httpx",
+    "black",
+    "ruff"
+]
+
+
