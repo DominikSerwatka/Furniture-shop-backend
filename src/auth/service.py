@@ -13,6 +13,7 @@ from src.auth.model import TokenData, RegisterUserRequest
 from jwt import PyJWTError
 from fastapi import Depends
 from src.auth.model import Token
+from src.exceptions import AuthenticationError
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
@@ -49,8 +50,7 @@ def verify_token(token: str) -> TokenData:
         return TokenData(user_id=user_id)
     except PyJWTError as e:
         logging.warning(f"Token verification failed: {str(e)}")
-        raise
-        # raise AuthenticationErro()
+        raise AuthenticationError()
 
 def register_user(db: Session, register_user_request: RegisterUserRequest) -> None:
     try:
@@ -75,8 +75,6 @@ CurrentUser = Annotated[TokenData, Depends(get_current_user)]
 def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session) -> Token:
     user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
-        raise
-        # raise AuthenticationError()
+        raise AuthenticationError()
     token = create_access_token(user.email, user.id, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     return Token(access_token=token, token_type='bearer')
-

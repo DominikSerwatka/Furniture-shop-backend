@@ -20,5 +20,5 @@ class Address(Base):
     city = Column(String, nullable=False)
 
     def __repr__(self):
-        return f"<Address(name='{self.name}', last_name='{self.last_name}', email='{self.email}', phone_number='{self.phone_number}', street='{self.street}, house_number='{self.house_number}', postal_code='{self.postal_code}', city='{self.city}')>"
+        return f"<Address(name='{self.name}', last_name='{self.last_name}', email='{self.email}', phone_number='{self.phone_number}', street='{self.street}', house_number='{self.house_number}', postal_code='{self.postal_code}', city='{self.city}')>"
 

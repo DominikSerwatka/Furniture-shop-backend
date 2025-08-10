@@ -5,7 +5,9 @@ from sqlalchemy.orm import Session
 
 from src.auth.service import verify_password, get_password_hash
 from src.entities.user import User
-from src.users.model import UserResponse
+from src.exceptions import UserNotFoundError, UserInvalidPassword, UserPasswordMismatchError
+from src.users.model import UserResponse, PasswordChange
+
 
 def get_user_by_id(db: Session, user_id: UUID) -> UserResponse:
     user = db.query(User).filter(User.id == user_id).first()
@@ -20,11 +22,11 @@ def change_password(db: Session, user_id: UUID, password_change: PasswordChange)
 
         if not verify_password(password_change.current_password, user.password_hash):
             logging.warning(f"Invalid current password provided for user ID: {user_id}")
-            raise InvalidPassword()
+            raise UserInvalidPassword()
 
         if password_change.new_password != password_change.new_password_confirm:
             logging.warning(f"Password mismatch during change attempt for user ID: {user_id}")
-            raise PasswordMismatchError()
+            raise UserPasswordMismatchError()
 
         user.password_hash = get_password_hash(password_change.new_password)
         db.commit()
