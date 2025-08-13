@@ -1,0 +1,85 @@
+{
+  "products": [
+    {
+      "name": "Szafa przesuwna",
+      "price": 1499,
+      "description": "Elegancka szafa przesuwna z lustrem, idealna do każdego wnętrza.",
+      "picture": "../assets/images/szafa_przesuwna.webp",
+      "material": "drewno",
+      "space": "pokoj",
+      "collection": "popularne"
+    },
+    {
+      "name": "Biurko drewniane",
+      "price": 799,
+      "description": "Stylowe biurko drewniane, doskonałe do pracy i nauki.",
+      "picture": "../assets/images/biurko.jpg",
+      "material": "drewno",
+      "space": "biuro",
+      "collection": "popularne"
+    },
+    {
+      "name": "Komoda z szufladami",
+      "price": 649,
+      "description": "Praktyczna komoda z szufladami, idealna do przechowywania ubrań i innych rzeczy.",
+      "picture": "../assets/images/komoda.webp",
+      "material": "drewno",
+      "space": "pokoj",
+      "collection": "popularne"
+    },
+    {
+      "name": "Stół jadalniany",
+      "price": 1299,
+      "description": "Elegancki stół jadalniany, idealny do rodzinnych obiadów.",
+      "picture": "../assets/images/stol_jadalniany.webp",
+      "material": "drewno",
+      "space": "kuchnia",
+      "collection": "popularne"
+    },
+    {
+      "name": "Fotel skórzany",
+      "price": 899,
+      "description": "Luksusowy fotel skórzany, zapewniający wygodę i styl.",
+      "picture": "../assets/images/fotel_skorzany.webp",
+      "material": "drewno",
+      "space": "pokoj",
+      "collection": "popularne"
+    },
+    {
+      "name": "Regał na książki",
+      "price": 499,
+      "description": "Praktyczny regał na książki, idealny do przechowywania kolekcji literackich.",
+      "picture": "../assets/images/regal_na_ksiazki.webp",
+      "material": "drewno",
+      "space": "pokoj",
+      "collection": "nowa-kolekcja"
+    },
+    {
+      "name": "Łóżko z materacem",
+      "price": 1799,
+      "description": "Wygodne łóżko z materacem, zapewniające zdrowy sen.",
+      "picture": "../assets/images/lozko_z_materacem.webp",
+      "material": "drewno",
+      "space": "sypialnia",
+      "collection": "nowa-kolekcja"
+    },
+    {
+      "name": "Szafka nocna",
+      "price": 399,
+      "description": "Praktyczna szafka nocna, idealna do przechowywania drobiazgów.",
+      "picture": "../assets/images/lozko_z_materacem.webp",
+      "material": "drewno",
+      "space": "sypialnia",
+      "collection": "nowa-kolekcja"
+    },
+    {
+      "name": "Stół kawowy",
+      "price": 599,
+      "description": "Stylowy stół kawowy, doskonały do salonu.",
+      "picture": "../assets/images/coffe_table.jpg",
+      "material": "drewno",
+      "space": "kuchnia",
+      "collection": "nowa-kolekcja"
+    }
+  ]
+}

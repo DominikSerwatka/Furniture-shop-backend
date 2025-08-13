@@ -181,6 +181,7 @@ dependencies = [
 
 [package.optional-dependencies]
 dev = [
+    { name = "alembic" },
     { name = "black" },
     { name = "httpx" },
     { name = "pytest" },
@@ -191,6 +192,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "alembic" },
+    { name = "alembic", marker = "extra == 'dev'" },
     { name = "bcrypt", specifier = "==4.0.1" },
     { name = "black", marker = "extra == 'dev'" },
     { name = "email-validator" },

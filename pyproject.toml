@@ -25,7 +25,8 @@ dev = [
     "pytest-asyncio",
     "httpx",
     "black",
-    "ruff"
+    "ruff",
+    "alembic"
 ]
 
 
