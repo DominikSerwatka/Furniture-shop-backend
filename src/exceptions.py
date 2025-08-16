@@ -16,6 +16,13 @@ class AddressNotFoundError(AddressError):
         message = "Address not found" if address_id is None else f"Address with id {address_id} not found"
         super().__init__(status_code=404, detail=message)
 
+class ProductError(HTTPException):
+    """Base exception for product-related errors"""
+
+class ProductNotFoundError(ProductError):
+    def __init__(self, product_id=None):
+        message = "Product not found" if product_id else None
+        super().__init__(status_code=404, detail=message)
 
 class UserError(HTTPException):
     """Base exception for user-related errors"""
