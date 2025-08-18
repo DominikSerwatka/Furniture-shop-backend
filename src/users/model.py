@@ -5,7 +5,7 @@ from uuid import UUID
 class UserResponse(BaseModel):
     id: UUID
     email: EmailStr
-    first_name: str
+    name: str
     last_name: str
 
 class PasswordChange(BaseModel):
