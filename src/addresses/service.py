@@ -3,7 +3,7 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from src.addresses.model import AddressCreate
+from src.addresses.model import AddressCreate, AddressUpdate
 from src.auth.model import TokenData
 from src.entities.address import Address
 from src.exceptions import AddressCreationError, AddressNotFoundError
@@ -33,4 +33,20 @@ def get_address_by_id(current_user: TokenData, db: Session, address_id: UUID) ->
         logging.warning(f"Address {address_id} not found for user {current_user.get_uuid()}")
         raise AddressNotFoundError(address_id)
     logging.info(f"Retrieved address {address_id} for user {current_user.get_uuid()}")
+    return address
+
+def delete_address_by_id(current_user: TokenData, db: Session, address_id: UUID):
+    address = get_address_by_id(current_user, db, address_id)
+    if address:
+        db.delete(address)
+        db.commit()
+        logging.info(f"Deleted address {address_id} for user {current_user.get_uuid()}")
+
+def update_address(current_user: TokenData, db: Session, address_id: UUID, address_update: AddressUpdate) -> Address:
+    address = get_address_by_id(current_user, db, address_id)
+    for field, value in address_update.model_dump(exclude_unset=True).items():
+        setattr(address, field, value)
+    db.commit()
+    db.refresh(address)
+    logging.info(f"Update address {address_id} for user {current_user.get_uuid()}")
     return address
