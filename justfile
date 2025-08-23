@@ -9,3 +9,6 @@ create_migration:
 
 perform_migration:
     alembic upgrade head
+
+test:
+    pytest --cov=src --cov-report=term-missing

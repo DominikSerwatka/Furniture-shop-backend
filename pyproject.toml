@@ -16,12 +16,14 @@ dependencies = [
     "passlib[bcrypt]",
     "bcrypt==4.0.1",
     "python-multipart",
-    "email-validator"
+    "email-validator",
+    "passlib"
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest",
+    "pytest-cov",
     "pytest-asyncio",
     "httpx",
     "black",

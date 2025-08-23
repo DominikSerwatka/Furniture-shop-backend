@@ -1,22 +1,22 @@
 import logging
 import os
 import secrets
+from datetime import timedelta, datetime, timezone
 from typing import Annotated
 from uuid import UUID, uuid4
 
 import jwt
+from fastapi import Depends, Request
+from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
+from src.auth.model import Token
+from src.auth.model import TokenData, RegisterUserRequest
 from src.entities.refresh_token import RefreshToken
 from src.entities.user import User
-from datetime import timedelta, datetime, timezone
-from src.auth.model import TokenData, RegisterUserRequest
-from jwt import PyJWTError
-from fastapi import Depends, Request
-from fastapi.responses import JSONResponse
-from src.auth.model import Token
 from src.exceptions import AuthenticationError
 
 SECRET_KEY = os.getenv("SECRET_KEY")
@@ -53,7 +53,7 @@ def verify_token(token: str) -> TokenData:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id: str = payload.get('id')
         return TokenData(user_id=user_id)
-    except PyJWTError as e:
+    except InvalidTokenError as e:
         logging.warning(f"Token verification failed: {str(e)}")
         raise AuthenticationError()
 
@@ -124,7 +124,7 @@ def refresh_access_token(request: Request, db: Session):
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    except PyJWTError:
+    except InvalidTokenError:
         raise AuthenticationError()
 
     sub = payload.get("sub")
@@ -187,7 +187,7 @@ def logout(request: Request, db: Session):
                     db.rollback()
                     raise
 
-    except PyJWTError:
+    except InvalidTokenError:
         pass
 
     return response
