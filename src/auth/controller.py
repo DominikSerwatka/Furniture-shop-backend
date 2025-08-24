@@ -1,16 +1,15 @@
-from fastapi import APIRouter, Depends, Request
-
-from src.auth.service import register_user, login_for_access_token, refresh_access_token, logout
-from src.database.core import DbSession
-from starlette import status
-from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
-from src.auth.model import RegisterUserRequest, Token
 
-router = APIRouter(
-    prefix='/auth',
-    tags=['auth']
-)
+from fastapi import APIRouter, Depends, Request
+from fastapi.security import OAuth2PasswordRequestForm
+from starlette import status
+
+from src.auth.model import RegisterUserRequest
+from src.auth.service import login_for_access_token, logout, refresh_access_token, register_user
+from src.database.core import DbSession
+
+router = APIRouter(prefix="/auth", tags=["auth"])
+
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def register_user_controller(db: DbSession, register_user_request: RegisterUserRequest):
@@ -18,7 +17,9 @@ async def register_user_controller(db: DbSession, register_user_request: Registe
 
 
 @router.post("/token")
-async def login_for_access_token_controller(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: DbSession):
+async def login_for_access_token_controller(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: DbSession
+):
     return login_for_access_token(form_data, db)
 
 

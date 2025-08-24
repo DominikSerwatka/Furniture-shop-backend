@@ -1,8 +1,8 @@
+import logging
 from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-import logging
 from src.entities.product import Product
 from src.exceptions import ProductNotFoundError
 from src.products.model import ProductResponse

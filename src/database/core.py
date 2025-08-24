@@ -1,10 +1,10 @@
-from dotenv import load_dotenv
 import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base, Session
 from typing import Annotated
-from fastapi import Depends
 
+from dotenv import load_dotenv
+from fastapi import Depends
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
 load_dotenv()
 
@@ -24,6 +24,7 @@ Session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
+
 def get_db():
     db = Session_local()
     try:
@@ -31,5 +32,5 @@ def get_db():
     finally:
         db.close()
 
-DbSession = Annotated[Session, Depends(get_db)]
 
+DbSession = Annotated[Session, Depends(get_db)]

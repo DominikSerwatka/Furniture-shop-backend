@@ -3,10 +3,10 @@ from uuid import UUID
 
 from sqlalchemy.orm import Session
 
-from src.auth.service import verify_password, get_password_hash
+from src.auth.service import get_password_hash, verify_password
 from src.entities.user import User
-from src.exceptions import UserNotFoundError, UserInvalidPassword, UserPasswordMismatchError
-from src.users.model import UserResponse, PasswordChange
+from src.exceptions import UserInvalidPassword, UserNotFoundError, UserPasswordMismatchError
+from src.users.model import PasswordChange, UserResponse
 
 
 def get_user_by_id(db: Session, user_id: UUID) -> UserResponse:
@@ -15,6 +15,7 @@ def get_user_by_id(db: Session, user_id: UUID) -> UserResponse:
         logging.warning(f"Successfully retrieved user with ID: {user_id}")
         raise UserNotFoundError(user_id)
     return user
+
 
 def change_password(db: Session, user_id: UUID, password_change: PasswordChange) -> None:
     try:

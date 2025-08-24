@@ -1,11 +1,15 @@
-from datetime import timedelta, datetime, timezone
 import json
 import os
+from datetime import UTC, datetime
 
 import jwt
 
-
-from src.auth.service import get_password_hash, verify_password, authenticate_user, login_for_access_token
+from src.auth.service import (
+    authenticate_user,
+    get_password_hash,
+    login_for_access_token,
+    verify_password,
+)
 from src.entities.refresh_token import RefreshToken
 
 
@@ -23,6 +27,7 @@ def test_verify_password():
     hashed_password = get_password_hash(password)
     assert verify_password(password, hashed_password)
     assert not verify_password("wrong_password", hashed_password)
+
 
 def test_authenticate_user(db_session, create_test_user):
     password = "password123"
@@ -62,11 +67,15 @@ def test_login_for_access_token(db_session, create_test_user):
     parts = cookie_value.split(".")
     assert len(parts) == 3  # JWT powinien mieć 3 segmenty
 
-    payload = jwt.decode(cookie_value, os.getenv('SECRET_KEY'), algorithms=[os.getenv('ALGORITHM')])
+    payload = jwt.decode(cookie_value, os.getenv("SECRET_KEY"), algorithms=[os.getenv("ALGORITHM")])
     assert "sub" in payload and "jti" in payload and "exp" in payload
     assert payload["sub"] == str(test_user.id)
 
-    rt = db_session.query(RefreshToken).filter_by(user_id=test_user.id, jti=payload["jti"]).one_or_none()
+    rt = (
+        db_session.query(RefreshToken)
+        .filter_by(user_id=test_user.id, jti=payload["jti"])
+        .one_or_none()
+    )
     assert rt is not None
     assert rt.revoked_at is None
-    assert rt.expires_at.timestamp() > datetime.now(timezone.utc).timestamp()
+    assert rt.expires_at.timestamp() > datetime.now(UTC).timestamp()

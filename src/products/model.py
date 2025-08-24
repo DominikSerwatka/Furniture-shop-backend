@@ -1,5 +1,6 @@
-from pydantic import BaseModel, ConfigDict
 from uuid import UUID
+
+from pydantic import BaseModel, ConfigDict
 
 
 class ProductCreate(BaseModel):
@@ -10,6 +11,7 @@ class ProductCreate(BaseModel):
     space: str
     material: str
     collection: str
+
 
 class ProductResponse(ProductCreate):
     id: UUID

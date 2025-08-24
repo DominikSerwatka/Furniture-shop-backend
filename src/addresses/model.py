@@ -1,6 +1,6 @@
-from pydantic import EmailStr, BaseModel, ConfigDict
 from uuid import UUID
-from typing import Optional
+
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
 class AddressCreate(BaseModel):
@@ -13,15 +13,17 @@ class AddressCreate(BaseModel):
     postal_code: str
     city: str
 
+
 class AddressUpdate(BaseModel):
-    name: Optional[str] = None
-    last_name: Optional[str] = None
-    email: Optional[EmailStr] = None
-    phone_number: Optional[str] = None
-    street: Optional[str] = None
-    house_number: Optional[str] = None
-    postal_code: Optional[str] = None
-    city: Optional[str] = None
+    name: str | None = None
+    last_name: str | None = None
+    email: EmailStr | None = None
+    phone_number: str | None = None
+    street: str | None = None
+    house_number: str | None = None
+    postal_code: str | None = None
+    city: str | None = None
+
 
 class AddressResponse(AddressCreate):
     id: UUID

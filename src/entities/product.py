@@ -1,13 +1,13 @@
 import uuid
 
+from sqlalchemy import Column, DateTime, Integer, String, Text, func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import String, Integer, Text, DateTime, func
 
 from src.database.core import Base
-from sqlalchemy import Column
+
 
 class Product(Base):
-    __tablename__ = 'products'
+    __tablename__ = "products"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String(255), nullable=False)

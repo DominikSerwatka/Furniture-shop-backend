@@ -7,9 +7,10 @@ from src.entities.product import Product
 
 def get_items_from_json(file_name: str):
     file = Path(file_name)
-    with open(file, encoding="utf-8") as f:
+    with Path.open(file, encoding="utf-8") as f:
         data = json.load(f)["products"]
     return data
+
 
 def add_to_db(products: {}, db):
     for item in products:
