@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy import Column, ForeignKey, String, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
 
 from src.database.core import Base
@@ -10,7 +10,12 @@ class Address(Base):
     __tablename__ = "addresses"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    user_id = Column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
     name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     email = Column(String, nullable=False)
@@ -19,6 +24,9 @@ class Address(Base):
     house_number = Column(String, nullable=False)
     postal_code = Column(String, nullable=False)
     city = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())
+
 
     def __repr__(self):
         return (

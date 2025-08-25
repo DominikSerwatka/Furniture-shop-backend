@@ -15,6 +15,7 @@ from src.entities.user import User
 from src.entities.address import Address
 from src.entities.refresh_token import RefreshToken
 from src.entities.product import Product
+from src.entities.order import Order, OrderItem
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

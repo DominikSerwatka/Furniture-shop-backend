@@ -1,0 +1,86 @@
+erDiagram
+  users ||--o{ addresses : has
+  users ||--o{ refresh_tokens : has
+  orders ||--o{ order_items : contains
+  users ||--o{ orders : places
+  products ||--o{ order_items : "optional link"
+
+  users {
+    uuid id PK
+    string email
+    string name
+    string last_name
+    string password_hash
+    datatime created_at
+    datatime updated_at
+  }
+
+  addresses {
+    uuid id PK
+    uuid user_id FK
+    string name
+    string last_name
+    string email
+    string phone_number
+    string street
+    string house_number
+    string postal_code
+    string city
+    string country
+    datatime created_at
+    datatime updated_at
+  }
+
+  products {
+    uuid id PK
+    string name
+    numeric price
+    string sku
+    string description
+    string picture
+    string space
+    string material
+    string collection
+    bool is_active
+    datatime created_at
+    datatime updated_at
+  }
+
+  refresh_tokens {
+      uuid id PK
+      uuid user_id FK
+      string jti
+      datatime expires_at
+      datatime revoked_at
+  }
+
+  orders {
+      uuid id PK
+      uuid user_id FK
+      uuid delivery_address_id FK
+      json delivery_address_snapshot
+      numeric items_total
+      numeric delivery_fee
+      numeric grand_total
+      numeric discount_total
+      string status "PLACED/PAID/SHIPPED/DELIVERED/CANCELLED/RETURNED"
+      string payment_status "PENDING/PAID/REFUNDED"
+      string payment_method
+      datatime created_at
+      datatime updated_at
+  }
+
+  order_items {
+      uuid id PK
+      uuid order_id FK
+      uuid product_id FK
+      string sku_snapshot
+      string name_snapshot
+      string image_url_snapshot
+      numeric unit_price_snapshot
+      numeric line_total
+      int qty
+      datatime created_at
+      datatime updated_at
+  }
+

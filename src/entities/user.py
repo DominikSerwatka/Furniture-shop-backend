@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
 
 from src.database.core import Base
@@ -14,6 +14,9 @@ class User(Base):
     name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     password_hash = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())
+
 
     def __repr__(self):
-        return f"<User(email='{self.email}', name={self.name}, last_name={self.last_name})>"
+        return f"<User(email='{self.email}', name={self.name}, last_name={self.last_name}, created_at={self.created_at})>"
