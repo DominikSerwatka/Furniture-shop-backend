@@ -22,3 +22,6 @@ fix-ruff:
     ruff format .
 
 pipeline: check-ruff test
+
+erd:
+    npx -y @mermaid-js/mermaid-cli -i docs/erd.mmd -o docs/erd.svg

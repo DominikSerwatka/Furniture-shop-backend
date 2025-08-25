@@ -1,7 +1,17 @@
-FastAPI backend for my furniture shop 
+# 🛒 FastAPI backend for Furniture Shop
 
-To install project run:
-    uv sync 
+Backend sklepu meblowego oparty o **FastAPI + SQLAlchemy + Postgres** (SQLite w testach).
+Zawiera autoryzację JWT z rotacją refresh tokenów, katalog produktów i model zamówień ze snapshotami.
 
-To install also dev dependencies:
-    uv sync --extra dev
+## 🚀 Quick start
+
+```bash
+# instalacja zależności produkcyjnych
+uv sync
+
+# instalacja także zależności developerskich
+uv sync --extra dev
+```
+
+## 📊 Database schema (ERD)
+![ERD](docs/erd.svg)

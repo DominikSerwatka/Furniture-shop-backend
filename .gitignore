@@ -6,6 +6,14 @@ dist/
 wheels/
 *.egg-info
 
+# tests database
+test.db
+
+# coverage
+.coverage
+
+# pyenv
+.python-version
 # Virtual environments
 .venv
 .idea

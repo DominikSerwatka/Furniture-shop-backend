@@ -11,8 +11,8 @@ erDiagram
     string name
     string last_name
     string password_hash
-    datatime created_at
-    datatime updated_at
+    datetime created_at
+    datetime updated_at
   }
 
   addresses {
@@ -27,8 +27,8 @@ erDiagram
     string postal_code
     string city
     string country
-    datatime created_at
-    datatime updated_at
+    datetime created_at
+    datetime updated_at
   }
 
   products {
@@ -42,16 +42,16 @@ erDiagram
     string material
     string collection
     bool is_active
-    datatime created_at
-    datatime updated_at
+    datetime created_at
+    datetime updated_at
   }
 
   refresh_tokens {
       uuid id PK
       uuid user_id FK
       string jti
-      datatime expires_at
-      datatime revoked_at
+      datetime expires_at
+      datetime revoked_at
   }
 
   orders {
@@ -66,8 +66,8 @@ erDiagram
       string status "PLACED/PAID/SHIPPED/DELIVERED/CANCELLED/RETURNED"
       string payment_status "PENDING/PAID/REFUNDED"
       string payment_method
-      datatime created_at
-      datatime updated_at
+      datetime created_at
+      datetime updated_at
   }
 
   order_items {
@@ -80,7 +80,7 @@ erDiagram
       numeric unit_price_snapshot
       numeric line_total
       int qty
-      datatime created_at
-      datatime updated_at
+      datetime created_at
+      datetime updated_at
   }
 
