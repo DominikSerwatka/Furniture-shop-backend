@@ -38,7 +38,5 @@ def delete_address_controller(db: DbSession, address_id: UUID, current_user: Cur
 
 
 @router.put("/{address_id}", response_model=AddressResponse)
-def update_address_controller(
-    db: DbSession, address_id: UUID, current_user: CurrentUser, address: AddressUpdate
-):
+def update_address_controller(db: DbSession, address_id: UUID, current_user: CurrentUser, address: AddressUpdate):
     return update_address(current_user, db, address_id, address)

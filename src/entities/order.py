@@ -1,15 +1,28 @@
 import uuid
 from enum import Enum
 
-from sqlalchemy.types import JSON as SA_JSON
-from sqlalchemy import Enum as SAEnum, String, DateTime, func, CheckConstraint, Index, Text, Integer
-
-from sqlalchemy import Column, UUID, ForeignKey, Numeric
+from sqlalchemy import (
+    UUID,
+    CheckConstraint,
+    Column,
+    DateTime,
+    Enum as SAEnum,
+    ForeignKey,
+    Index,
+    Integer,
+    Numeric,
+    String,
+    Text,
+    func,
+)
 from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.orm import relationship
+from sqlalchemy.types import JSON as SA_JSON
 
 from src.database.core import Base
 
 DeliveryJson = SA_JSON().with_variant(JSONB, "postgresql")
+
 
 class OrderStatus(str, Enum):
     PLACED = "PLACED"
@@ -51,6 +64,13 @@ class Order(Base):
     delivered_at = Column(DateTime(timezone=True), nullable=True)
     cancelled_at = Column(DateTime(timezone=True), nullable=True)
 
+    items = relationship(
+        "OrderItem",
+        back_populates="order",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+
     __table_args__ = (
         CheckConstraint("items_total >= 0", name="orders_items_total_nonneg"),
         CheckConstraint("delivery_fee >= 0", name="orders_delivery_fee_nonneg"),
@@ -59,6 +79,7 @@ class Order(Base):
         Index("ix_orders_user_created", "user_id", "created_at"),
         Index("ix_orders_status_created", "status", "created_at"),
     )
+
 
 class OrderItem(Base):
     __tablename__ = "order_items"
@@ -81,9 +102,10 @@ class OrderItem(Base):
     image_url_snapshot = Column(Text, nullable=True)
     unit_price_snapshot = Column(Numeric(10, 2), nullable=False)
     qty = Column(Integer, nullable=False, server_default="1")
-    line_total = Column(Numeric(10,2), nullable=False)
+    line_total = Column(Numeric(10, 2), nullable=False)
     created_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now())
+    order = relationship("Order", back_populates="items")
 
     __table_args__ = (
         CheckConstraint("qty > 0", name="order_items_qty_positive"),

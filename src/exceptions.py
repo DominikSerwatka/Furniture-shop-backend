@@ -1,6 +1,18 @@
 from fastapi import HTTPException
 
 
+class OrderError(HTTPException):
+    """Base exception for order-related errors"""
+
+    pass
+
+
+class OrderNotFoundException(HTTPException):
+    def __init__(self, order_id=None):
+        message = "Order not found" if order_id is None else f"Order with id {order_id} not found"
+        super().__init__(status_code=404, detail=message)
+
+
 class AddressError(HTTPException):
     """Base exception for address-related errors"""
 
@@ -15,9 +27,7 @@ class AddressCreationError(AddressError):
 
 class AddressNotFoundError(AddressError):
     def __int__(self, address_id=None):
-        message = (
-            "Address not found" if address_id is None else f"Address with id {address_id} not found"
-        )
+        message = "Address not found" if address_id is None else f"Address with id {address_id} not found"
         super().__init__(status_code=404, detail=message)
 
 

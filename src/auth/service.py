@@ -90,9 +90,7 @@ def create_refresh_token(user_id: UUID, days: int = REFRESH_TOKEN_EXPIRE_DAYS):
     return token, jti, exp
 
 
-def login_for_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session
-) -> JSONResponse:
+def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Session) -> JSONResponse:
     user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
         raise AuthenticationError()
@@ -102,9 +100,7 @@ def login_for_access_token(
         db.add(RefreshToken(user_id=user.id, jti=jti, expires_at=exp))
         db.commit()
     except Exception as e:
-        logging.error(
-            f"Failed to login user {user.id}, error with Refresh Token creation, error: {str(e)}"
-        )
+        logging.error(f"Failed to login user {user.id}, error with Refresh Token creation, error: {str(e)}")
         db.rollback()
         raise
 
@@ -137,11 +133,7 @@ def refresh_access_token(request: Request, db: Session):
         raise AuthenticationError()
 
     refresh_token = db.query(RefreshToken).filter_by(jti=jti, user_id=UUID(sub)).one_or_none()
-    if (
-        not refresh_token
-        or refresh_token.revoked_at
-        or refresh_token.expires_at < datetime.now(UTC)
-    ):
+    if not refresh_token or refresh_token.revoked_at or refresh_token.expires_at < datetime.now(UTC):
         raise AuthenticationError()
 
     refresh_token.revoked_at = datetime.now(UTC)  # rotate old token
@@ -150,23 +142,16 @@ def refresh_access_token(request: Request, db: Session):
     if not user:
         raise AuthenticationError()
 
-    access_token = create_access_token(
-        user, UUID(sub), timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    )
+    access_token = create_access_token(user, UUID(sub), timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     new_refresh_token, new_jti, new_exp = create_refresh_token(user_id=UUID(sub))
     try:
         db.add(RefreshToken(user_id=UUID(sub), jti=new_jti, expires_at=new_exp))
         db.commit()
     except Exception as e:
-        logging.error(
-            f"Failed to refresh token user {UUID(sub)}, "
-            f"error with Refresh Token creation, error: {str(e)}"
-        )
+        logging.error(f"Failed to refresh token user {UUID(sub)}, error with Refresh Token creation, error: {str(e)}")
         db.rollback()
         raise
-    response = JSONResponse(
-        content=Token(access_token=access_token, token_type="bearer").model_dump()
-    )
+    response = JSONResponse(content=Token(access_token=access_token, token_type="bearer").model_dump())
     response.set_cookie(
         key="refresh_token",
         value=new_refresh_token,
@@ -199,8 +184,7 @@ def logout(request: Request, db: Session):
                     db.commit()
                 except Exception as e:
                     logging.error(
-                        f"Failed to logout user {UUID(sub)}, "
-                        f"error with Refresh Token change, error: {str(e)}"
+                        f"Failed to logout user {UUID(sub)}, error with Refresh Token change, error: {str(e)}"
                     )
                     db.rollback()
                     raise

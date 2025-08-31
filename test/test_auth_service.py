@@ -71,11 +71,7 @@ def test_login_for_access_token(db_session, create_test_user):
     assert "sub" in payload and "jti" in payload and "exp" in payload
     assert payload["sub"] == str(test_user.id)
 
-    rt = (
-        db_session.query(RefreshToken)
-        .filter_by(user_id=test_user.id, jti=payload["jti"])
-        .one_or_none()
-    )
+    rt = db_session.query(RefreshToken).filter_by(user_id=test_user.id, jti=payload["jti"]).one_or_none()
     assert rt is not None
     assert rt.revoked_at is None
     assert rt.expires_at.timestamp() > datetime.now(UTC).timestamp()

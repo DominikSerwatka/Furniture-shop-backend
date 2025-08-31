@@ -19,9 +19,7 @@ def create_address(current_user: TokenData, db: Session, address: AddressCreate)
         logging.info(f"Create new address for user: {current_user.get_uuid()}")
         return new_address
     except Exception as e:
-        logging.error(
-            f"Failed to create address for user {current_user.get_uuid()}. Error: {str(e)}"
-        )
+        logging.error(f"Failed to create address for user {current_user.get_uuid()}. Error: {str(e)}")
         raise AddressCreationError(str(e)) from None
 
 
@@ -53,9 +51,7 @@ def delete_address_by_id(current_user: TokenData, db: Session, address_id: UUID)
         logging.info(f"Deleted address {address_id} for user {current_user.get_uuid()}")
 
 
-def update_address(
-    current_user: TokenData, db: Session, address_id: UUID, address_update: AddressUpdate
-) -> Address:
+def update_address(current_user: TokenData, db: Session, address_id: UUID, address_update: AddressUpdate) -> Address:
     address = get_address_by_id(current_user, db, address_id)
     for field, value in address_update.model_dump(exclude_unset=True).items():
         setattr(address, field, value)

@@ -17,9 +17,7 @@ async def register_user_controller(db: DbSession, register_user_request: Registe
 
 
 @router.post("/token")
-async def login_for_access_token_controller(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: DbSession
-):
+async def login_for_access_token_controller(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: DbSession):
     return login_for_access_token(form_data, db)
 
 

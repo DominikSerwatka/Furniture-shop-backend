@@ -1,9 +1,10 @@
-from uuid import uuid4
+from uuid import uuid4, UUID
 
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
+from src.auth.model import TokenData
 from src.auth.service import get_password_hash
 from src.database.core import Base
 from src.entities.user import User
@@ -44,3 +45,11 @@ def create_test_user():
         return test_user
 
     return return_user
+
+
+@pytest.fixture()
+def test_token_data():
+    def return_token_data(uuid: UUID):
+        return TokenData(user_id=str(uuid))
+
+    return return_token_data
