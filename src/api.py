@@ -12,3 +12,4 @@ def register_routes(app: FastAPI):
     app.include_router(users_router)
     app.include_router(addresses_router)
     app.include_router(products_router)
+    app.include_router(order_router)

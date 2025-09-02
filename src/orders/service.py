@@ -101,7 +101,6 @@ def get_orders(current_user: TokenData, db: Session) -> list[OrderResponse]:
     orders = db.query(Order).filter(Order.user_id == user_id).all()
     return orders
 
-
 def get_order_by_id(current_user: TokenData, db: Session, order_id: UUID) -> OrderResponse:
     order = db.query(Order).filter(Order.id == order_id).filter(Order.user_id == current_user.get_uuid()).one_or_none()
     if not order:
