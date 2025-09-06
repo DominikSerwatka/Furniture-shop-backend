@@ -37,7 +37,7 @@ class OrderItemResponse(BaseModel):
     sku_snapshot: str | None = None
     name_snapshot: str
     image_url_snapshot: str | None = None
-    unite_price_snapshot: Decimal
+    unit_price_snapshot: Decimal
     qty: int
     line_total: Decimal
 

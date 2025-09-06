@@ -7,10 +7,12 @@ class ProductCreate(BaseModel):
     name: str
     price: int
     description: str
+    sku: str
     picture: str
     space: str
     material: str
     collection: str
+    is_active: bool
 
 
 class ProductResponse(ProductCreate):
